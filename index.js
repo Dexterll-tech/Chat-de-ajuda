@@ -722,7 +722,6 @@ let userName = null;
 
 function iaOffline(userMsg) {
   const lower = userMsg.toLowerCase();
-  // Frases de abertura empática (embaralha para evitar repetição)
   const aberturas = shuffle([
     "Eu entendo como isso pode ser doloroso.",
     "Imagino o quanto isso pesa no seu coração.",
@@ -733,7 +732,6 @@ function iaOffline(userMsg) {
     "Sua dor é válida e importante.",
     "Obrigado por confiar em mim para compartilhar isso."
   ]);
-  // Frases de encerramento acolhedor (embaralha para evitar repetição)
   const encerramentos = shuffle([
     "Estou aqui para você. Se quiser, continue compartilhando.",
     "Se sentir necessidade, busque apoio de um profissional. Você merece cuidado.",
@@ -743,13 +741,10 @@ function iaOffline(userMsg) {
     "O Instituto Crer+Ser está sempre disponível para te ouvir.",
     "Você pode contar com o Instituto Crer+Ser sempre que precisar."
   ]);
-  // Versículo aleatório
   const versiculo = versiculos[Math.floor(Math.random() * versiculos.length)];
-  // Oração breve personalizada
   const oracao = userName
     ? `Senhor, acolhe o coração de ${userName}, traz paz, esperança e força. Que Tua presença seja real neste momento. Amém.`
     : "Senhor, acolhe este coração, traz paz, esperança e força. Que Tua presença seja real neste momento. Amém.";
-  // Busca pelo maior gatilho correspondente (mais específico)
   let melhorGatilho = null;
   let maiorMatch = 0;
   for (const gatilho of gatilhosCristaos) {
@@ -764,19 +759,15 @@ function iaOffline(userMsg) {
     const versiculoGatilho = melhorGatilho.versiculo || versiculos[Math.floor(Math.random() * versiculos.length)];
     return `${aberturas.pop()}\n\n"${versiculoGatilho}"\n\n${melhorGatilho.resposta}\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
-  // Se detectar crise suicida, reforça o CVV
   if (lower.includes('suicídio') || lower.includes('suicidio') || lower.includes('me matar') || lower.includes('acabar com minha vida')) {
     return `${aberturas.pop()}\n\n"${versiculo}"\n\nSinto muito que esteja pensando nisso. Se você estiver pensando em se machucar, ligue para o Centro de Valorização da Vida – 188, Instituto Crer + Ser: 21 98740-1651, ou procure ajuda médica agora mesmo. Deus está com você.\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
-  // Detecta se a pessoa pede oração
   if (lower.includes('oração') || lower.includes('orar')) {
     return `${aberturas.pop()}\n\n"${versiculo}"\n\nVamos orar juntos${userName ? ', ' + userName : ''}:\nSenhor Deus, neste momento eu Te peço que acolhas este coração aflito. Que Tua presença traga paz, esperança e força para enfrentar cada desafio. Renova o ânimo, consola as dores, ilumina os pensamentos e derrama Teu amor sobre cada área da vida. Que o Teu Espírito Santo envolva, cure e fortaleça. Que a certeza do Teu cuidado seja maior do que qualquer medo ou tristeza. Em nome de Jesus, amém.\n\n${encerramentos.pop()}`;
   }
-  // Detecta se pede versículo
   if (lower.includes('versículo') || lower.includes('versiculo')) {
     return `${aberturas.pop()}\n\n"${versiculo}"\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
-  // Resposta padrão
   return `${aberturas.pop()}\n\n"${versiculo}"\n\n${respostasPadrao[Math.floor(Math.random() * respostasPadrao.length)]}\n\n${oracao}\n\n${encerramentos.pop()}`;
 }
 
