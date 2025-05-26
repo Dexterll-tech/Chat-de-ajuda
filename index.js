@@ -260,22 +260,22 @@ const gatilhosCristaos = [
 
 function iaOffline(userMsg, userName) {
   const lower = userMsg.toLowerCase();
-  // Frases de abertura empática
-  const aberturas = [
+  // Frases de abertura empática (embaralha para evitar repetição)
+  const aberturas = shuffle([
     "Eu entendo como isso pode ser doloroso.",
     "Imagino o quanto isso pesa no seu coração.",
     "Sei que não é fácil passar por isso.",
     "Sinto muito que esteja enfrentando esse momento.",
     "Reconheço sua coragem em compartilhar isso."
-  ];
-  // Frases de encerramento acolhedor
-  const encerramentos = [
+  ]);
+  // Frases de encerramento acolhedor (embaralha para evitar repetição)
+  const encerramentos = shuffle([
     "Estou aqui para você. Se quiser, continue compartilhando.",
     "Se sentir necessidade, busque apoio de um profissional. Você merece cuidado.",
     "Conte comigo para conversar sempre que precisar.",
     "Se quiser falar mais, estou à disposição.",
     "Lembre-se: pedir ajuda é um ato de coragem."
-  ];
+  ]);
   // Versículo aleatório
   const versiculo = versiculos[Math.floor(Math.random() * versiculos.length)];
   // Oração breve personalizada
@@ -286,24 +286,35 @@ function iaOffline(userMsg, userName) {
   for (const gatilho of gatilhosCristaos) {
     for (const palavra of gatilho.palavras) {
       if (lower.includes(palavra)) {
-        return `${aberturas[Math.floor(Math.random() * aberturas.length)]}\n\n"${versiculo}"\n\n${gatilho.resposta}\n\n${oracao}\n\n${encerramentos[Math.floor(Math.random() * encerramentos.length)]}`;
+        return `${aberturas.pop()}\n\n"${versiculo}"\n\n${gatilho.resposta}\n\n${oracao}\n\n${encerramentos.pop()}`;
       }
     }
   }
-  // Se detectar crise suicida, reforça o CVV e Instituto Crer + Ser
+  // Se detectar crise suicida, reforça o CVV
   if (lower.includes('suicídio') || lower.includes('suicidio') || lower.includes('me matar') || lower.includes('acabar com minha vida')) {
-    return `${aberturas[Math.floor(Math.random() * aberturas.length)]}\n\n"${versiculo}"\n\nSinto muito que esteja pensando nisso. Se você estiver pensando em se machucar, ligue para o Centro de Valorização da Vida – 188, Instituto Crer + Ser: 21 98740-1651, ou procure ajuda médica agora mesmo. Deus está com você.\n\n${oracao}\n\n${encerramentos[Math.floor(Math.random() * encerramentos.length)]}`;
+    return `${aberturas.pop()}\n\n"${versiculo}"\n\nSinto muito que esteja pensando nisso. Se você estiver pensando em se machucar, ligue para o Centro de Valorização da Vida – 188, Instituto Crer + Ser: 21 98740-1651, ou procure ajuda médica agora mesmo. Deus está com você.\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
   // Detecta se a pessoa pede oração
   if (lower.includes('oração') || lower.includes('orar')) {
-    return `${aberturas[Math.floor(Math.random() * aberturas.length)]}\n\n"${versiculo}"\n\nVamos orar juntos${userName ? ', ' + userName : ''}:\nSenhor Deus, neste momento eu Te peço que acolhas este coração aflito. Que Tua presença traga paz, esperança e força para enfrentar cada desafio. Renova o ânimo, consola as dores, ilumina os pensamentos e derrama Teu amor sobre cada área da vida. Que o Teu Espírito Santo envolva, cure e fortaleça. Que a certeza do Teu cuidado seja maior do que qualquer medo ou tristeza. Em nome de Jesus, amém.\n\n${encerramentos[Math.floor(Math.random() * encerramentos.length)]}`;
+    return `${aberturas.pop()}\n\n"${versiculo}"\n\nVamos orar juntos${userName ? ', ' + userName : ''}:\nSenhor Deus, neste momento eu Te peço que acolhas este coração aflito. Que Tua presença traga paz, esperança e força para enfrentar cada desafio. Renova o ânimo, consola as dores, ilumina os pensamentos e derrama Teu amor sobre cada área da vida. Que o Teu Espírito Santo envolva, cure e fortaleça. Que a certeza do Teu cuidado seja maior do que qualquer medo ou tristeza. Em nome de Jesus, amém.\n\n${encerramentos.pop()}`;
   }
   // Detecta se pede versículo
   if (lower.includes('versículo') || lower.includes('versiculo')) {
-    return `${aberturas[Math.floor(Math.random() * aberturas.length)]}\n\n"${versiculo}"\n\n${oracao}\n\n${encerramentos[Math.floor(Math.random() * encerramentos.length)]}`;
+    return `${aberturas.pop()}\n\n"${versiculo}"\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
   // Resposta padrão
-  return `${aberturas[Math.floor(Math.random() * aberturas.length)]}\n\n"${versiculo}"\n\n${respostasPadrao[Math.floor(Math.random() * respostasPadrao.length)]}\n\n${oracao}\n\n${encerramentos[Math.floor(Math.random() * encerramentos.length)]}`;
+  return `${aberturas.pop()}\n\n"${versiculo}"\n\n${respostasPadrao[Math.floor(Math.random() * respostasPadrao.length)]}\n\n${oracao}\n\n${encerramentos.pop()}`;
+}
+
+// Função para embaralhar arrays
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
 }
 
 let userName = null;
