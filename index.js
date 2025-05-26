@@ -720,7 +720,7 @@ const gatilhosCristaos = [
 
 let userName = null;
 
-function iaOffline(userMsg, userName) {
+function iaOffline(userMsg) {
   const lower = userMsg.toLowerCase();
   // Frases de abertura empática (embaralha para evitar repetição)
   const aberturas = shuffle([
@@ -802,7 +802,7 @@ app.post('/chat', async (req, res) => {
     }
 
     // Resposta da IA (fluxo normal)
-    const resposta = iaOffline(userMsg, userName);
+    const resposta = iaOffline(userMsg);
     res.json({ message: resposta });
   } catch (error) {
     console.error('Erro no processamento da mensagem:', error);
