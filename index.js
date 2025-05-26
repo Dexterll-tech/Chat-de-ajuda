@@ -282,13 +282,19 @@ function iaOffline(userMsg, userName) {
   const oracao = userName
     ? `Senhor, acolhe o coração de ${userName}, traz paz, esperança e força. Que Tua presença seja real neste momento. Amém.`
     : "Senhor, acolhe este coração, traz paz, esperança e força. Que Tua presença seja real neste momento. Amém.";
-  // Se detectar gatilho cristão
+  // Busca pelo maior gatilho correspondente
+  let melhorGatilho = null;
+  let maiorMatch = 0;
   for (const gatilho of gatilhosCristaos) {
     for (const palavra of gatilho.palavras) {
-      if (lower.includes(palavra)) {
-        return `${aberturas.pop()}\n\n"${versiculo}"\n\n${gatilho.resposta}\n\n${oracao}\n\n${encerramentos.pop()}`;
+      if (lower.includes(palavra) && palavra.length > maiorMatch) {
+        melhorGatilho = gatilho;
+        maiorMatch = palavra.length;
       }
     }
+  }
+  if (melhorGatilho) {
+    return `${aberturas.pop()}\n\n"${versiculo}"\n\n${melhorGatilho.resposta}\n\n${oracao}\n\n${encerramentos.pop()}`;
   }
   // Se detectar crise suicida, reforça o CVV
   if (lower.includes('suicídio') || lower.includes('suicidio') || lower.includes('me matar') || lower.includes('acabar com minha vida')) {
