@@ -602,7 +602,7 @@ const gatilhosCristaos = [
     versiculo: "“Porque Deus tanto amou o mundo que deu o seu Filho unigênito, para que todo o que nele crê não pereça, mas tenha a vida eterna.” (João 3:16)"
   },
   {
-    palavras: ["não tenho mais vontade de viver", "não quero mais lutar", "não vejo mais sentido"],
+    palavras: ["não tenho mais vontade de viver", "não quero mais viver", "não vejo mais sentido em viver"],
     resposta: "Sua vida é preciosa para Deus. Se estiver pensando em se machucar, procure ajuda imediatamente: CVV 188 ou Instituto Crer+Ser 21 98740-1651. Deus te ama profundamente (Salmo 118:17).",
     versiculo: "“Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.” (Isaías 41:10)"
   },
@@ -717,6 +717,8 @@ const gatilhosCristaos = [
     versiculo: "“Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.” (Isaías 41:10)"
   }
 ];
+
+let userName = null;
 
 function iaOffline(userMsg, userName) {
   const lower = userMsg.toLowerCase();
