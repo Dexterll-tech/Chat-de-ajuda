@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Ajuda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .chat-container {
+      background: #ece5dd;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 24px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border: 1.5px solid #25d366;
+    }
+    .chat-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #075e54;
+      margin-bottom: 8px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .messages {
+      background: #f7f7f7;
+      border-radius: 8px;
+      padding: 8px;
+      min-height: 180px;
+      max-height: 320px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .msg {
+      padding: 10px 16px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-break: break-word;
+      font-size: 1rem;
+    }
+    .msg.user {
+      align-self: flex-end;
+      background: #dcf8c6;
+      color: #222;
+      border-radius: 8px 8px 0 8px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+    .msg.bot {
+      align-self: flex-start;
+      background: #fff;
+      color: #222;
+      border-radius: 8px 8px 8px 0;
+      border-left: 4px solid #25d366;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+    form {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #bfc9d9;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus {
+      border: 1.5px solid #25d366;
+    }
+    button {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #128c7e;
+    }
+    .footer {
+      margin-top: 24px;
+      color: #7b9acc;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-title">Chat Ajuda</div>
+    <div class="messages" id="messages"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Digite sua mensagem..." autocomplete="off" required />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+  <div class="footer">Desenvolvido por R.T.E Soluções &copy; 2025</div>
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const messages = document.getElementById('messages');
+
+    function addMessage(text, sender) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + sender;
+      div.innerHTML = text.replace(/\n/g, '<br>');
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+      addMessage(userMsg, 'user');
+      input.value = '';
+      addMessage('⏳ Amparo está pensando...', 'bot');
+      try {
+        const res = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userMsg })
+        });
+        const data = await res.json();
+        messages.lastChild.remove(); // remove "pensando..."
+        addMessage(data.reply, 'bot');
+      } catch {
+        messages.lastChild.remove();
+        addMessage('Erro ao conectar com o servidor.', 'bot');
+      }
+    });
+  </script>
+</body>
+</html>
